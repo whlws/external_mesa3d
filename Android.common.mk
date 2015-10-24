@@ -25,6 +25,8 @@ ifeq ($(LOCAL_IS_HOST_MODULE),true)
 LOCAL_CFLAGS += -D_GNU_SOURCE
 endif
 
+LOCAL_CLANG := false
+
 LOCAL_C_INCLUDES += \
 	$(MESA_TOP)/src \
 	$(MESA_TOP)/include

@@ -40,8 +40,7 @@ LOCAL_C_INCLUDES := \
     $(MESA_DRI_C_INCLUDES)
 
 LOCAL_EXPORT_C_INCLUDE_DIRS := \
-    $(LOCAL_PATH) \
-    $(intermediates)
+    $(LOCAL_PATH)
 
 LOCAL_SRC_FILES := \
 	$(DRI_COMMON_FILES) \

@@ -50,8 +50,70 @@ LOCAL_SHARED_LIBRARIES := libdrm
 endif
 
 LOCAL_MODULE := libmesa_st_dri
+LOCAL_MODULE_CLASS := STATIC_LIBRARIES
 
+intermediates := $(call local-generated-sources-dir)
+MESA_DRI_OPTIONS_H := $(intermediates)/xmlpool/options.h
 LOCAL_GENERATED_SOURCES := $(MESA_DRI_OPTIONS_H)
+
+MESA_DRI_COMMON := $(MESA_TOP)/src/mesa/drivers/dri/common
+
+#
+# Generate options.h from gettext translations.
+#
+
+MESA_DRI_OPTIONS_LANGS := de es nl fr sv
+POT := $(intermediates)/xmlpool.pot
+
+$(POT): $(MESA_DRI_COMMON)/xmlpool/t_options.h
+	@mkdir -p $(dir $@)
+	xgettext -L C --from-code utf-8 -o $@ $<
+
+$(intermediates)/xmlpool/%.po: $(MESA_DRI_COMMON)/xmlpool/%.po $(POT)
+	lang=$(basename $(notdir $@)); \
+	mkdir -p $(dir $@); \
+	if [ -f $< ]; then \
+		msgmerge -o $@ $^; \
+	else \
+		msginit -i $(POT) \
+			-o $@ \
+			--locale=$$lang \
+			--no-translator; \
+		sed -i -e 's/charset=.*\\n/charset=UTF-8\\n/' $@; \
+	fi
+
+$(intermediates)/xmlpool/de/LC_MESSAGES/options.mo: $(intermediates)/xmlpool/de.po
+	mkdir -p $(dir $@)
+	msgfmt -o $@ $<
+
+$(intermediates)/xmlpool/es/LC_MESSAGES/options.mo: $(intermediates)/xmlpool/es.po
+	mkdir -p $(dir $@)
+	msgfmt -o $@ $<
+
+$(intermediates)/xmlpool/nl/LC_MESSAGES/options.mo: $(intermediates)/xmlpool/nl.po
+	mkdir -p $(dir $@)
+	msgfmt -o $@ $<
+
+$(intermediates)/xmlpool/fr/LC_MESSAGES/options.mo: $(intermediates)/xmlpool/fr.po
+	mkdir -p $(dir $@)
+	msgfmt -o $@ $<
+
+$(intermediates)/xmlpool/sv/LC_MESSAGES/options.mo: $(intermediates)/xmlpool/sv.po
+	mkdir -p $(dir $@)
+	msgfmt -o $@ $<
+
+$(MESA_DRI_OPTIONS_H): PRIVATE_SCRIPT := $(MESA_DRI_COMMON)/xmlpool/gen_xmlpool.py
+$(MESA_DRI_OPTIONS_H): PRIVATE_LOCALEDIR := $(intermediates)/xmlpool
+$(MESA_DRI_OPTIONS_H): PRIVATE_TEMPLATE_HEADER := $(MESA_DRI_COMMON)/xmlpool/t_options.h
+$(MESA_DRI_OPTIONS_H): $(PRIVATE_SCRIPT) $(PRIVATE_TEMPLATE_HEADER) \
+		$(intermediates)/xmlpool/de/LC_MESSAGES/options.mo \
+		$(intermediates)/xmlpool/es/LC_MESSAGES/options.mo \
+		$(intermediates)/xmlpool/nl/LC_MESSAGES/options.mo \
+		$(intermediates)/xmlpool/fr/LC_MESSAGES/options.mo \
+		$(intermediates)/xmlpool/sv/LC_MESSAGES/options.mo
+	@mkdir -p $(dir $@)
+	$(hide) $(MESA_PYTHON2) $(PRIVATE_SCRIPT) $(PRIVATE_TEMPLATE_HEADER) \
+		$(PRIVATE_LOCALEDIR) $(MESA_DRI_OPTIONS_LANGS) > $@
 
 include $(GALLIUM_COMMON_MK)
 include $(BUILD_STATIC_LIBRARY)
