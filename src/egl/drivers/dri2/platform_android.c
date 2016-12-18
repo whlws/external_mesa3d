@@ -38,6 +38,7 @@
 #include "egl_dri2.h"
 #include "egl_dri2_fallbacks.h"
 #include "gralloc_drm.h"
+#include "gralloc_drm_priv.h"
 
 static int
 get_format_bpp(int native)
@@ -596,7 +597,7 @@ droid_open_device(void)
 
    err = hw_get_module(GRALLOC_HARDWARE_MODULE_ID, &mod);
    if (!err) {
-      const gralloc_module_t *gr = (gralloc_module_t *) mod;
+      const struct drm_gralloc1_module_t *gr = (struct drm_gralloc1_module_t *) mod;
 
       err = -EINVAL;
       if (gr->perform)
