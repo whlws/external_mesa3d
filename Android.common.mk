@@ -94,6 +94,10 @@ LOCAL_CFLAGS += \
     LOCAL_CFLAGS += -DHAVE_LLVM=0x0308 -DMESA_LLVM_VERSION_PATCH=0
     ELF_INCLUDES := external/elfutils/libelf
   endif
+  ifeq ($(MESA_ANDROID_MAJOR_VERSION),8)
+    LOCAL_CFLAGS += -DHAVE_LLVM=0x0309 -DMESA_LLVM_VERSION_PATCH=0
+    ELF_INCLUDES := external/elfutils/libelf
+  endif
 endif
 
 ifneq ($(LOCAL_IS_HOST_MODULE),true)

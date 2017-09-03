@@ -300,10 +300,6 @@ drm_get_pci_id_for_fd(int fd, int *vendor_id, int *chip_id)
 int
 loader_get_pci_id_for_fd(int fd, int *vendor_id, int *chip_id)
 {
-#if HAVE_LIBDRM
-   if (drm_get_pci_id_for_fd(fd, vendor_id, chip_id))
-      return 1;
-#endif
    return 0;
 }
 
