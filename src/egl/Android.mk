@@ -48,6 +48,7 @@ LOCAL_C_INCLUDES := \
 	$(MESA_TOP)/src/egl/drivers/dri2 \
         external/drm_gralloc \
         frameworks/native/libs/nativewindow/include \
+        frameworks/native/libs/nativebase/include \
         frameworks/native/libs/arect/include
 
 LOCAL_STATIC_LIBRARIES := \
