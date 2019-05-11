@@ -238,7 +238,7 @@ struct dri2_egl_display
 #endif
 
 #ifdef HAVE_ANDROID_PLATFORM
-   const gralloc_module_t *gralloc;
+   const struct drm_gralloc1_module_t *gralloc;
 #endif
 
    bool                      is_render_node;

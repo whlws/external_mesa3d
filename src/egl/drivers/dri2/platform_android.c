@@ -44,6 +44,7 @@
 
 #ifdef HAVE_DRM_GRALLOC
 #include <gralloc_drm_handle.h>
+#include <gralloc_drm_priv.h>
 #include "gralloc_drm.h"
 #endif /* HAVE_DRM_GRALLOC */
 

@@ -103,7 +103,7 @@ define mesa-build-with-llvm
     $(eval LOCAL_CFLAGS += -DHAVE_LLVM=0x0308 -DMESA_LLVM_VERSION_STRING=\"3.8\")) \
   $(if $(filter 8,$(MESA_ANDROID_MAJOR_VERSION)), \
     $(eval LOCAL_CFLAGS += -DHAVE_LLVM=0x0309 -DMESA_LLVM_VERSION_STRING=\"3.9\")) \
-  $(if $(filter P,$(MESA_ANDROID_MAJOR_VERSION)), \
+  $(if $(filter 9,$(MESA_ANDROID_MAJOR_VERSION)), \
     $(eval LOCAL_CFLAGS += -DHAVE_LLVM=0x0309 -DMESA_LLVM_VERSION_STRING=\"3.9\")) \
   $(eval LOCAL_SHARED_LIBRARIES += libLLVM)
 endef
